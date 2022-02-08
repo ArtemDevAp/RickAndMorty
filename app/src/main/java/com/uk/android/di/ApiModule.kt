@@ -1,7 +1,7 @@
 package com.uk.android.di
 
 import com.squareup.moshi.Moshi
-import com.uk.android.data.ApiService
+import com.uk.android.data.RickiAndMortyApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,18 +13,9 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class ApiModule {
+object ApiModule {
 
-    @Provides
-    @Singleton
-    internal fun providesOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideMoshi(): Moshi = Moshi.Builder()
-        .build()
+    private const val BASE_URL = "https://rickandmortyapi.com/api/"
 
     @Provides
     @Singleton
@@ -39,11 +30,8 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+    fun provideRickiAndMortyApiService(retrofit: Retrofit): RickiAndMortyApiService {
+        return retrofit.create(RickiAndMortyApiService::class.java)
     }
 
-    companion object {
-        private const val BASE_URL = "https://rickandmortyapi.com/api/"
-    }
 }
