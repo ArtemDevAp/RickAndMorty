@@ -8,11 +8,11 @@ import retrofit2.http.Url
 
 interface RickiAndMortyApiService {
 
-    @GET("character/")
-    suspend fun getCharacters(): CharacterModel
+    @GET
+    suspend fun getCharacters(@Url character: String): CharacterModel
 
-    @GET("location/")
-    suspend fun getLocations(): LocationModel
+    @GET
+    suspend fun getLocations(@Url location: String): LocationModel
 
     @GET
     suspend fun getPagedEpisode(@Url page: String): EpisodeModel

@@ -3,36 +3,58 @@ package com.uk.android.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.uk.android.data.CharacterPagingSource
 import com.uk.android.data.EpisodePagingSource
-import com.uk.android.data.RickiAndMortyApiService
-import com.uk.android.model.CharacterModel
-import com.uk.android.model.EpisodeResult
-import com.uk.android.model.LocationModel
+import com.uk.android.data.LocationPagingSource
+import com.uk.android.model.CharacterResponse
+import com.uk.android.model.EpisodeResponse
+import com.uk.android.model.LocationResponse
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-const val PAGE_SIZE = 15
-
 class RickAndMortyRepository @Inject constructor(
-    private val rickiAndMortyApiService: RickiAndMortyApiService,
-    private val pagingSource: EpisodePagingSource
+    private val episodePagingSource: EpisodePagingSource,
+    private val characterPagingSource: CharacterPagingSource,
+    private val locationPagingSource: LocationPagingSource
 ) {
+    companion object {
+        private const val PAGE_SIZE = 15
+    }
 
-    fun getEpisodes(): Flow<PagingData<EpisodeResult>> =
+    fun getEpisodes(): Flow<PagingData<EpisodeResponse>> =
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                pagingSource
+                episodePagingSource
             }
         ).flow
 
-    suspend fun getCharacters(): CharacterModel =
-        rickiAndMortyApiService.getCharacters()
+    fun getCharacters(): Flow<PagingData<CharacterResponse>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                characterPagingSource
+            }
+        ).flow
 
-    suspend fun getLocation(): LocationModel =
-        rickiAndMortyApiService.getLocations()
+
+    fun getLocation(): Flow<PagingData<LocationResponse>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                locationPagingSource
+            }
+        ).flow
 
 }

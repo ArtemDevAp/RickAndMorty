@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">UK Android Recruitment</string>
+    <string name="episodes">Episodes</string>
+    <string name="characters">Characters</string>
+    <string name="locations">Locations</string>
+    <string name="episode">Episode:</string>
+    <string name="location">Location:</string>
+    <string name="character">Character:</string>
+
 </resources>

@@ -1,11 +1,11 @@
 package com.uk.android.model
 
 data class CharacterModel(
-    val info: Info?,
-    val results: List<CharacterResult>
-)
+    override val info: Info?,
+    override val results: List<CharacterResponse>
+) : BaseModel<CharacterResponse>()
 
-data class CharacterResult(
+data class CharacterResponse(
     val id: Int,
     val name: String,
     val status: String,

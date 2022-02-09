@@ -2,10 +2,10 @@ package com.uk.android.model
 
 data class EpisodeModel(
     override val info: Info?,
-    override val results: List<EpisodeResult>
-) : BaseModel<EpisodeResult>()
+    override val results: List<EpisodeResponse>
+) : BaseModel<EpisodeResponse>()
 
-data class EpisodeResult(
+data class EpisodeResponse(
     val id: Int,
     val name: String,
     val air_date: String,

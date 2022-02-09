@@ -1,7 +1,8 @@
 package com.uk.android.di
 
+import com.uk.android.data.CharacterPagingSource
 import com.uk.android.data.EpisodePagingSource
-import com.uk.android.data.RickiAndMortyApiService
+import com.uk.android.data.LocationPagingSource
 import com.uk.android.repository.RickAndMortyRepository
 import dagger.Module
 import dagger.Provides
@@ -16,11 +17,13 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideRickAndMortyRepository(
-        rickiAndMortyApiService: RickiAndMortyApiService,
-        episodePaging: EpisodePagingSource
+        episodePaging: EpisodePagingSource,
+        locationPagingSource: LocationPagingSource,
+        characterPagingSource: CharacterPagingSource
     ): RickAndMortyRepository = RickAndMortyRepository(
-        rickiAndMortyApiService = rickiAndMortyApiService,
-        pagingSource = episodePaging
+        episodePagingSource = episodePaging,
+        locationPagingSource = locationPagingSource,
+        characterPagingSource = characterPagingSource
     )
 
 }
