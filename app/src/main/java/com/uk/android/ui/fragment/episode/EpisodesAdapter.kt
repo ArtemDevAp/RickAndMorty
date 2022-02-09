@@ -35,7 +35,6 @@ class EpisodesAdapter :
     }
 }
 
-
 class EpisodeDiffCallBack : DiffUtil.ItemCallback<EpisodeResponse>() {
     override fun areItemsTheSame(oldItem: EpisodeResponse, newItem: EpisodeResponse): Boolean {
         return oldItem.id == newItem.id

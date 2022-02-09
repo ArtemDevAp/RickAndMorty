@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="unknown_host" type="string">Error to load data</item>
+    <item name="unknown_host" type="string">No internet connection</item>
     <item name="unknown_error" type="string">Unknown error</item>
 
 </resources>

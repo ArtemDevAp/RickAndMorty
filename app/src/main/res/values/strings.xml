@@ -6,5 +6,6 @@
     <string name="episode">Episode:</string>
     <string name="location">Location:</string>
     <string name="character">Character:</string>
+    <string name="try_again">try again</string>
 
 </resources>

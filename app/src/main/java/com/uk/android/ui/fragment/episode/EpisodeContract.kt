@@ -5,9 +5,10 @@ import com.uk.android.model.EpisodeResponse
 
 data class EpisodeState(
     val loading: Boolean = true,
+    val error: Boolean = false,
     val episodeResponse: PagingData<EpisodeResponse>? = null
 )
 
 sealed class EpisodeSideEffect {
-    data class ToastError(val msg: String) : EpisodeSideEffect()
+    data class SnackError(val msg: String) : EpisodeSideEffect()
 }

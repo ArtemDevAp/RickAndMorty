@@ -25,9 +25,7 @@ class EpisodeViewModel @Inject constructor(
     private val episodeErrorHandler: EpisodeErrorHandler
 ) : ContainerHost<EpisodeState, EpisodeSideEffect>, ViewModel() {
 
-    override val container: Container<EpisodeState, EpisodeSideEffect> = container(
-        EpisodeState(true)
-    )
+    override val container: Container<EpisodeState, EpisodeSideEffect> = container(EpisodeState())
 
     init {
         loadEpisode()
@@ -41,6 +39,7 @@ class EpisodeViewModel @Inject constructor(
                     reduce {
                         state.copy(
                             loading = false,
+                            error = false,
                             episodeResponse = episodeResponse
                         )
                     }
@@ -55,7 +54,7 @@ class EpisodeViewModel @Inject constructor(
                     when (val load = loadState.refresh) {
                         is LoadState.Error -> {
                             val errorText = episodeErrorHandler.handleError(load.error)
-                            postSideEffect(EpisodeSideEffect.ToastError(errorText))
+                            postSideEffect(EpisodeSideEffect.SnackError(errorText))
                         }
                         else -> {
                         }

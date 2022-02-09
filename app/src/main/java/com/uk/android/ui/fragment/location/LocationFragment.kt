@@ -8,7 +8,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
+import com.uk.android.R
 import com.uk.android.databinding.LocationFragmentBinding
+import com.uk.android.ui.adapter.SpinnerLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import org.orbitmvi.orbit.viewmodel.observe
 
@@ -37,9 +39,13 @@ class LocationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         snackBar = Snackbar.make(view, "", Snackbar.LENGTH_LONG)
+            .setAnchorView(R.id.bottom_navigation)
 
         binding.locationList.run {
-            adapter = locationAdapter
+            adapter = locationAdapter.withLoadStateHeaderAndFooter(
+                header = SpinnerLoadStateAdapter(),
+                footer = SpinnerLoadStateAdapter()
+            )
             setHasFixedSize(true)
         }
 
@@ -47,20 +53,26 @@ class LocationFragment : Fragment() {
 
     }
 
-
     private suspend fun render(locationState: LocationState) {
+
+        binding.progressLoad.isVisible = locationState.loading
 
         locationState.locations?.let { list ->
             locationAdapter.submitData(list)
         }
 
-        binding.progressLoad.isVisible = locationState.loading
     }
 
     private fun sideEffect(locationSideEffect: LocationSideEffect) {
-
+        when (locationSideEffect) {
+            is LocationSideEffect.SnackError -> {
+                snackBar?.run {
+                    setText(locationSideEffect.msg)
+                    show()
+                }
+            }
+        }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

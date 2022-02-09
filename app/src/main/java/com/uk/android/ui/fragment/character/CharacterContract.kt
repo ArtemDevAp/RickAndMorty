@@ -8,7 +8,6 @@ data class CharacterState(
     val character: PagingData<CharacterResponse>? = null
 )
 
-
 sealed class CharacterSideEffect {
-    data class ErrorToast(val msg: String) : CharacterSideEffect()
+    data class SnackError(val msg: String) : CharacterSideEffect()
 }

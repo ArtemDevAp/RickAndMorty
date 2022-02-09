@@ -9,5 +9,5 @@ data class LocationState(
 )
 
 sealed class LocationSideEffect {
-    data class ErrorToast(val msg: String) : LocationSideEffect()
+    data class SnackError(val msg: String) : LocationSideEffect()
 }

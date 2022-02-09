@@ -8,7 +8,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
+import com.uk.android.R
 import com.uk.android.databinding.EpisodeFragmentBinding
+import com.uk.android.ui.adapter.SpinnerLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import org.orbitmvi.orbit.viewmodel.observe
 
@@ -36,34 +38,41 @@ class EpisodeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        snackBar = Snackbar.make(view, "", Snackbar.LENGTH_LONG)
+        snackBar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
+            .setAnchorView(R.id.bottom_navigation)
+            .setAction("Refresh") {
+                episodeAdapter.retry()
+            }
 
         binding.episodeList.run {
+            adapter = episodeAdapter.withLoadStateHeaderAndFooter(
+                header = SpinnerLoadStateAdapter(),
+                footer = SpinnerLoadStateAdapter()
+            )
             setHasFixedSize(true)
-            adapter = episodeAdapter
         }
-
-        viewModel.episodeHandler(episodeAdapter.loadStateFlow)
 
         viewModel.observe(
             lifecycleOwner = viewLifecycleOwner,
             state = ::render,
             sideEffect = ::sideEffect
         )
+
+        viewModel.episodeHandler(episodeAdapter.loadStateFlow)
     }
 
     private suspend fun render(episodeState: EpisodeState) {
 
+        binding.progressLoad.isVisible = episodeState.loading
+
         episodeState.episodeResponse?.let { episodeData ->
             episodeAdapter.submitData(episodeData)
         }
-
-        binding.progressLoad.isVisible = episodeState.loading
     }
 
     private fun sideEffect(episodeSideEffect: EpisodeSideEffect) {
         when (episodeSideEffect) {
-            is EpisodeSideEffect.ToastError -> {
+            is EpisodeSideEffect.SnackError -> {
                 snackBar?.run {
                     setText(episodeSideEffect.msg)
                     show()
