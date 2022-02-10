@@ -3,6 +3,7 @@ package com.uk.android.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.uk.android.model.CharacterResponse
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class CharacterPagingSource @Inject constructor(
@@ -19,6 +20,8 @@ class CharacterPagingSource @Inject constructor(
 
         return try {
             val response = rickiAndMortyApiService.getCharacters(pageUrl)
+
+            delay(400)
 
             LoadResult.Page(
                 data = response.results,

@@ -3,6 +3,7 @@ package com.uk.android.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.uk.android.model.LocationResponse
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class LocationPagingSource @Inject constructor(
@@ -18,6 +19,8 @@ class LocationPagingSource @Inject constructor(
 
         return try {
             val response = rickiAndMortyApiService.getLocations(pageUrl)
+
+            delay(400)
 
             LoadResult.Page(
                 data = response.results,

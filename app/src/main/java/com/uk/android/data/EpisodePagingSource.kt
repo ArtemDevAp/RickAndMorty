@@ -3,6 +3,7 @@ package com.uk.android.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.uk.android.model.EpisodeResponse
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class EpisodePagingSource @Inject constructor(
@@ -17,6 +18,8 @@ class EpisodePagingSource @Inject constructor(
         val pageUrl = params.key ?: STARTING_PAGE_URL
         return try {
             val response = rickiAndMortyApiService.getPagedEpisode(pageUrl)
+
+            delay(400)
 
             LoadResult.Page(
                 data = response.results,
